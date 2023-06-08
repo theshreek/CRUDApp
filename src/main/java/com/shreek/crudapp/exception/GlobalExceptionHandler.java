@@ -1,7 +1,7 @@
 package com.shreek.crudapp.exception;
 
 import com.shreek.crudapp.dto.ExceptionDTO;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,6 +16,6 @@ public class GlobalExceptionHandler {
         if (exception.getErrorCode()!= 0) httpStatusCode = exception.getErrorCode();
         ExceptionDTO exceptionResponseDTO = new ExceptionDTO();
         exceptionResponseDTO.setErrorMessage(errorMessage);
-        return new ResponseEntity<>(exceptionResponseDTO, HttpStatusCode.valueOf(httpStatusCode));
+        return new ResponseEntity<>(exceptionResponseDTO, HttpStatus.valueOf(httpStatusCode));
     }
 }
