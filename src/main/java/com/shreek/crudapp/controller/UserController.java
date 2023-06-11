@@ -1,6 +1,7 @@
 package com.shreek.crudapp.controller;
 
 import com.shreek.crudapp.dto.ResponseDTO;
+import com.shreek.crudapp.dto.UserDTO;
 import com.shreek.crudapp.model.User;
 import com.shreek.crudapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class UserController {
 
     // Controller to get all user
     @GetMapping
-    public List<User> getAllUser() {
+    public List<UserDTO> getAllUser() {
         return userService.getAllUsers();
     }
 

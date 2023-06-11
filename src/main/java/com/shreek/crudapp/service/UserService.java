@@ -1,6 +1,7 @@
 package com.shreek.crudapp.service;
 
 import com.shreek.crudapp.dto.ResponseDTO;
+import com.shreek.crudapp.dto.UserDTO;
 import com.shreek.crudapp.exception.CustomException;
 import com.shreek.crudapp.model.User;
 import com.shreek.crudapp.repository.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,8 +50,21 @@ public class UserService {
      *
      * @return List of All Users or Blank List
      */
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUsers() {
+        List<UserDTO> listDto = new ArrayList<>();
+        List<User> userList = userRepository.findAll();
+
+        for (User dto : userList) {
+            UserDTO user = new UserDTO(
+                    dto.getId(),
+                    dto.getFirstName(),
+                    dto.getLastName(),
+                    dto.getEmail(),
+                    dto.getRole()
+            );
+            listDto.add(user);
+        }
+        return listDto;
     }
 
     /**
@@ -61,7 +76,7 @@ public class UserService {
     @GetMapping("/{id}")
     public Optional<User> getUserById(int id) {
         return Optional.ofNullable(userRepository.findById(id).orElseThrow(() ->
-                new CustomException("User Not Found By Id" + id)));
+                new CustomException("User Not Found By Id " + id)));
     }
 
     /**
@@ -73,7 +88,7 @@ public class UserService {
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUserById(int id, User user) {
         User oldUser = userRepository.findById(id).orElseThrow(() ->
-                new CustomException("User Not Found By id" + id));
+                new CustomException("User Not Found By id " + id));
         oldUser.setFirstName(user.getFirstName());
         oldUser.setLastName(user.getLastName());
         oldUser.setEmail(user.getEmail());
